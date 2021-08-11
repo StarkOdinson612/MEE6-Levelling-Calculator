@@ -54,7 +54,7 @@ def get_details():
 
     next_rank_str = '\n'.join(['\nNext Rank Details:', f'Current XP: {xp_r}', calculate_time_with_xp(xp_r_rank, current_level, next_rank_level)])
 
-    print('\n'.join([username, next_level_str, next_rank_str, '']))
+    return '\n'.join([username, next_level_str, next_rank_str, ''])
 
     
 
