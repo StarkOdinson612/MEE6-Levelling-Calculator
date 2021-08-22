@@ -2,23 +2,8 @@ import asyncio
 from mee6_py_api import API
 import math
 import os
+import json
 
-id_list = {
-    "jelly" : 298294667219435521,
-    "stark" : 550694373537611776,
-    "coo" : 688754047955501241,
-    "sen" : 692894461117857815,
-    "hyper" : 692524907044667392,
-    "turtle" : 199006852707647488,
-    "fawry" : 164041317968642058,
-    "moon" : 697485467288862810,
-    "cez" : 356864811436605444,
-    "forgetful" : 565079240500838412,
-    "sean" : 509436503802249216,
-    "wezo" : 727531759834759219,
-    "felox" : 387259938977742849,
-    "joosh" : 477148794861912084
-}
 
 async def api_fetch_details(ID):
     mee6API = API(377946908783673344)
@@ -26,28 +11,58 @@ async def api_fetch_details(ID):
 
     return details
 
+def validate_id():
+    id_to_add = input("Enter Discord User ID here (or enter N to cancel): ")
+
+    if id_to_add.lower() == 'n':
+        return 'CANCELLED'
+
+    try: 
+        details = api_fetch_details(id_to_add)
+
+        return [id_to_add, details]
+    except:
+        print('Invalid ID, please try again.\n')
+        validate_id()
+
 def get_details():
+
+    # os.system('cls' if os.name == 'nt' else 'clear')
 
     MY_ID = input("Enter ID here: ")
 
-
     try:
-        try:
-            details = asyncio.run(api_fetch_details(MY_ID))
-        except:
-            details = asyncio.run(api_fetch_details(id_list[MY_ID]))
-
+        details = asyncio.run(api_fetch_details(MY_ID))
     except:
-        print("Invalid ID, please try again.")
-        print('\n\n')
-        get_details()
+        choice = input('Would you like to add this username to the database? (Y/N): ')
 
-    username = f"\n\nUsername: {details['username']}\n"
+        if choice.lower() == 'y':
+            x = validate_id()
 
-    xp_r_lvl = details['detailed_xp'][1] - details['detailed_xp'][0]
+            if (x == 'CANCELLED'):
+                return
+            else:
+                user_id = x[0]
+                details = x[1]
+
+            list_fo = open('id_list.json', 'a+')
+            list_dict = json.load(list_fo)
+            list_fo.close()
+            list_dict.update({MY_ID : user_id})
+            list_fo_write = open('id_list.json', "w+")
+            json.dump(list_dict, list_fo_write, indent = 4)
+            list_fo_write.close()
+        else:
+            print("Invalid ID, please try again.")
+            print('\n\n')
+            get_details()
 
     current_level = details['level']
     next_level = current_level + 1
+
+    username = f"\n\nUsername: {details['username']}\nLevel: {current_level}"
+
+    xp_r_lvl = details['detailed_xp'][1] - details['detailed_xp'][0]
 
     xp_r = details['detailed_xp'][0]
 
@@ -59,7 +74,7 @@ def get_details():
 
     next_rank_str = '\n'.join(['\nNext Rank Details:', f'Current XP: {xp_r}', calculate_time_with_xp(xp_r_rank, current_level, next_rank_level)])
 
-    return '\n'.join([username, next_level_str, next_rank_str, ''])
+    print('\n'.join([username, next_level_str, next_rank_str, '']))
 
     
 
@@ -117,5 +132,4 @@ def t_format(min):
 
     return f'{weeks}w {days}d {hours}h {min}m ({o_min} messages)'
 
-
-print(get_details())
+get_details()
