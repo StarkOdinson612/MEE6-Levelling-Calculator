@@ -16,7 +16,8 @@ id_list = {
     "forgetful" : 565079240500838412,
     "sean" : 509436503802249216,
     "wezo" : 727531759834759219,
-    "felox" : 387259938977742849
+    "felox" : 387259938977742849,
+    "joosh" : 477148794861912084
 }
 
 async def api_fetch_details(ID):
@@ -54,7 +55,7 @@ def get_details():
 
     next_rank_str = '\n'.join(['\nNext Rank Details:', f'Current XP: {xp_r}', calculate_time_with_xp(xp_r_rank, current_level, next_rank_level)])
 
-    print('\n'.join([username, next_level_str, next_rank_str, '']))
+    return '\n'.join([username, next_level_str, next_rank_str, ''])
 
     
 
