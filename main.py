@@ -1,9 +1,10 @@
 import asyncio
 from mee6_py_api import API
 import math
+import json
 import os
 
-id_list = {
+idl = {
     "jelly" : 298294667219435521,
     "stark" : 550694373537611776,
     "coo" : 688754047955501241,
@@ -17,7 +18,12 @@ id_list = {
     "sean" : 509436503802249216,
     "wezo" : 727531759834759219,
     "felox" : 387259938977742849,
-    "joosh" : 477148794861912084
+    "joosh" : 477148794861912084,
+    "phoe" : 396612195926147072,
+    "nex" : 863460357477367838,
+    "noman" : 640769129183182849,
+    "fired": 550694373537611776,
+    "nacho": 624554736317759497
 }
 
 async def api_fetch_details(ID):
@@ -28,19 +34,44 @@ async def api_fetch_details(ID):
 
 def get_details():
 
-    MY_ID = input("Enter ID here: ")
+    with open('dict.json', 'r') as fo:
+        id_list = json.load(fo)
 
+    print('Currently Stored Users:')
+    print('\n'.join([i for i in id_list]))
+    print('\n')
 
-    try:
+    MY_ID = input("Enter username here: ")
+
+    if MY_ID in id_list:
+        details = asyncio.run(api_fetch_details(id_list[MY_ID]))
+    else:
+        this_id = input("Enter your Discord User ID here: ")
+
         try:
-            details = asyncio.run(api_fetch_details(MY_ID))
+            details = asyncio.run(api_fetch_details(this_id))
         except:
-            details = asyncio.run(api_fetch_details(id_list[MY_ID]))
+            print("Invalid ID, please retry.")
+            return
 
-    except:
-        print("Invalid ID, please try again.")
-        print('\n\n')
-        get_details()
+        if this_id not in id_list.values():
+            input_t = input(f"Would you likse to save your ID under the username {MY_ID}? (Y/N)  ")
+
+
+            is_correct_username = input_t.lower() == 'y'
+
+            if is_correct_username:
+                id_list.update({str(MY_ID): int(this_id)})
+                with open('dict.json', 'w+') as fo:
+                    json.dump(id_list, fo, indent=2)
+            else:
+                correct_username = input("Enter your username here: ")
+
+                id_list.update({str(correct_username): int(this_id)})
+                with open('dict.json', 'w+') as fo:
+                    json.dump(id_list, fo, indent=2)
+        else:
+            print(f"{this_id} is already registered under the username {[i for i, j in id_list.items() if j == this_id][0]}")
 
     username = f"\n\nUsername: {details['username']}\n"
 
@@ -51,17 +82,41 @@ def get_details():
 
     xp_r = details['detailed_xp'][0]
 
-    next_level_str = '\n'.join(['Next Level Details: ',f'Current XP: {xp_r}', calculate_time_with_xp(xp_r_lvl, current_level, next_level)])
+    nlxpt = '\n'.join(calculate_time_with_xp(xp_r_lvl, current_level, next_level))
+
+    next_level_str = '\n'.join(['Next Level Details: ',f'Current XP: {xp_r}', f"Current Level: {current_level}", nlxpt])
     
     next_rank_level = int(current_level + 5 - (current_level % 5))
     next_rank_level_xp = math.ceil(((5/3) * (next_rank_level ** 3)) + (22.5 * (next_rank_level ** 2)) + (75 + (5/6)) * next_rank_level)
     xp_r_rank = next_rank_level_xp - details['xp']
 
-    next_rank_str = '\n'.join(['\nNext Rank Details:', f'Current XP: {xp_r}', calculate_time_with_xp(xp_r_rank, current_level, next_rank_level)])
+    nrxpt = '\n'.join(calculate_time_with_xp(xp_r_rank, current_level, next_rank_level))
 
-    return '\n'.join([username, next_level_str, next_rank_str, ''])
+    next_rank_str = '\n'.join(['\nNext Rank Details:', f'Current XP: {xp_r}', f"Current Level: {current_level}", nrxpt])
 
-    
+    print('\n'.join([username, next_level_str, next_rank_str, '']))
+
+    json_list = {
+        "username": details['username'],
+        "current_xp": xp_r,
+        "current_level": current_level,
+        "next_level": next_level,
+        "next_level_xp": xp_r_lvl,
+        "time_remaining_level": {
+            "min": nlxpt[2],
+            "avg": nlxpt[3],
+            "max": nlxpt[4]
+        },
+        "next_rank_xp": xp_r_rank,
+        "next_rank": next_rank_level,
+        "time_remaining_rank": {
+            "min": nrxpt[2],
+            "avg": nrxpt[3],
+            "max": nrxpt[4]
+        }
+    }
+
+    fin_json_obj = json.dumps(json_list, indent=4)
 
     fin_input = check_retry()
 
@@ -91,7 +146,7 @@ def calculate_time_with_xp(xp_r, lvl, n_lvl):
     avg = f'Average: {t_format(math.ceil(xp_r/20))}' 
     max = f'Maximum: {t_format(math.ceil(xp_r/15))}'
 
-    return '\n'.join([n_lvl_str, xp_str, min, avg, max])
+    return [n_lvl_str, xp_str, min, avg, max]
 
 def t_format(min):
 
@@ -118,4 +173,4 @@ def t_format(min):
     return f'{weeks}w {days}d {hours}h {min}m ({o_min} messages)'
 
 
-print(get_details())
+get_details()

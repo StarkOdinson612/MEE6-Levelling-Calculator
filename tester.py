@@ -76,6 +76,11 @@ def get_details():
 
     print('\n'.join([username, next_level_str, next_rank_str, '']))
 
+    json_list = {
+        "username" : details['username'],
+        "current_level" : current_level
+    }
+
     
 
     fin_input = check_retry()
