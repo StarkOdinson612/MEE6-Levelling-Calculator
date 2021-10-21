@@ -4,6 +4,25 @@ import math
 import os
 import json
 
+<<<<<<< HEAD:tester.py
+=======
+id_list = {
+    "jelly" : 298294667219435521,
+    "stark" : 550694373537611776,
+    "coo" : 688754047955501241,
+    "sen" : 692894461117857815,
+    "hyper" : 692524907044667392,
+    "turtle" : 199006852707647488,
+    "fawry" : 164041317968642058,
+    "moon" : 697485467288862810,
+    "cez" : 356864811436605444,
+    "forgetful" : 565079240500838412,
+    "sean" : 509436503802249216,
+    "wezo" : 727531759834759219,
+    "felox" : 387259938977742849,
+    "joosh" : 477148794861912084
+}
+>>>>>>> origin/master:mee6calc.py
 
 async def api_fetch_details(ID):
     mee6API = API(377946908783673344)
@@ -74,7 +93,7 @@ def get_details():
 
     next_rank_str = '\n'.join(['\nNext Rank Details:', f'Current XP: {xp_r}', calculate_time_with_xp(xp_r_rank, current_level, next_rank_level)])
 
-    print('\n'.join([username, next_level_str, next_rank_str, '']))
+    return '\n'.join([username, next_level_str, next_rank_str, ''])
 
     json_list = {
         "username" : details['username'],
