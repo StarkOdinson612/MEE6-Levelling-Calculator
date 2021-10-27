@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <div class="header_class">
+            <h1>
+                MEE6 Levelling Calculator
+            </h1>
+        </div>
+        {% for i in form_data %}
+        <p style="font-size:10px;"> {{i}}</p>
+        {% endfor %}
+    </body>
+</html>

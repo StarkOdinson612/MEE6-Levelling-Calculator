@@ -4,8 +4,6 @@ import math
 import os
 import json
 
-<<<<<<< HEAD:tester.py
-=======
 id_list = {
     "jelly" : 298294667219435521,
     "stark" : 550694373537611776,
@@ -22,7 +20,6 @@ id_list = {
     "felox" : 387259938977742849,
     "joosh" : 477148794861912084
 }
->>>>>>> origin/master:mee6calc.py
 
 async def api_fetch_details(ID):
     mee6API = API(377946908783673344)
@@ -64,9 +61,8 @@ def get_details():
                 user_id = x[0]
                 details = x[1]
 
-            list_fo = open('id_list.json', 'a+')
-            list_dict = json.load(list_fo)
-            list_fo.close()
+            with list_fo as open('id_list.json', 'r+'):
+                list_dict = json.load(list_fo)
             list_dict.update({MY_ID : user_id})
             list_fo_write = open('id_list.json', "w+")
             json.dump(list_dict, list_fo_write, indent = 4)
@@ -156,4 +152,7 @@ def t_format(min):
 
     return f'{weeks}w {days}d {hours}h {min}m ({o_min} messages)'
 
-get_details()
+def update_json_file():
+
+
+# get_details()
