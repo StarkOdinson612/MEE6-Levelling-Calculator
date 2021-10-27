@@ -3,12 +3,23 @@ body {
     background-color:#fcfcfc;
 }
 
+*{
+margin: 0px;
+padding: 0px;
+box-sizing: border-box;
+}
+
 .header_class {
     display: flex;
     text-align: center;
     width: 100%;
+    padding: 30px;
     margin: 0%;
     background-color: #c4c4c4;
+}
+
+.main_body {
+    margin: 30px;
 }
 
 h1 {
@@ -19,14 +30,19 @@ div {
     width:100%;
 }
 
-input {
-    border: 2px solid #888888;
-    border-radius: 20px;
-    padding: 10px;
-    height: 15px;
+p {
+    margin: 5px;
+    margin-bottom: 8px;
 }
 
-input:focus-within {
+input.x {
+    border: 2px solid #888888;
+    border-radius: 20px;
+    padding: 12.5px;
+    height: 20px;
+}
+
+input.x:focus-within {
     background-color: #f3f3f3;
 }
 
@@ -44,17 +60,18 @@ select:focus-within {
     background-color: #f3f3f3;
 }
 
-button {
-    style: none;
+input.button {
     border: 2px solid #888888;
     border-radius: 20px;
     padding: 5px 15px;
     color: black;
     text-align: center;
     background-color: white;
+    display: block;
+    margin-top: 25px;
 }
 
-button:active {
+input.button:active {
     border-color: #000000;
     background-color: #f3f3f3;
 }

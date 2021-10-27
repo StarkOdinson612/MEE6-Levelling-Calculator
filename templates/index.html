@@ -9,41 +9,39 @@
                 MEE6 Levelling Calculator
             </h1>
         </div>
-        <p>
-            ID List Below:
-        </p>
-        <select name=members method="GET" action="/">
-            {% for member in members%}
-                {% if member == "(None)" %}
-                    <option value="{{members[member]}}" selected>
-                        {{member}}
-                    </option>
-                {% endif %}
-                {% if not member == "(None)" %}
-                    <option value="{{members[member]}}">
-                        {{member}}
-                    </option>
-                {% endif %}
-            {% endfor %}
-        </select>
-        <br>
-        <br>
-        <button>Submit</button>
-        <br>
-        <br>
-        <hr style="border: 2px solid #122344; border-radius:20px"/>
-        <p>
-            If you cannot find your ID above, please enter it along with your username below in the appropriate fields:
-        </p>
-        <br>
-        <form method="POST" action="{{ url_for('../') }}">
-            Name (nickname): <input type="text", size="40", maxlength="40" name="username", class="more_space_left" style="margin-left: 0px;">
+        <div class="main_body">
+            <p>
+                ID List Below:
+            </p>
+            <form name="selectable" action="/data" method="POST">
+                <select name=members>
+                    {% for member in members%}
+                        {% if member == "(None)" %}
+                            <option value="{{members[member]}}" selected>
+                                {{member}}
+                            </option>
+                        {% endif %}
+                        {% if not member == "(None)" %}
+                            <option value="{{member}}:{{members[member]}}">
+                                {{member}}
+                            </option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <input type="submit" class="button"/>
+            </form>
+            <hr style="border: 2px solid #122344; border-radius:20px; margin: 20px 0px 20px 0px"/>
+            <p>
+                If you cannot find your ID above, please enter it along with your username below in the appropriate fields:
+            </p>
             <br>
-            <br>
-            Discord User ID: <input type="text", size="18", name="user_id",maxlength="18" style="margin-left: 17px;">
-            <br>
-            <br>
-            <button>Submit</button>
-        </form>
+            <form method="POST" action="/data">
+                Name (nickname): <input class="x" type="text", size="40", maxlength="40" name="username", class="more_space_left" style="margin-left: 0px;">
+                <br>
+                <br>
+                Discord User ID: <input class="x" type="text", size="23",maxlength="18" style="margin-left: 17px;", name="user_id">
+                <input type="submit" class="button"/>
+            </form>
+        </div>
     </body>
 </html>

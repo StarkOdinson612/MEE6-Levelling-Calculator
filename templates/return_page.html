@@ -9,8 +9,8 @@
                 MEE6 Levelling Calculator
             </h1>
         </div>
-        <p>
-            {{ DETAILS_STR }}
-        </p>
+        {% for i in form_data %}
+        <p style="font-size:10px;"> {{i}}</p>
+        {% endfor %}
     </body>
 </html>
