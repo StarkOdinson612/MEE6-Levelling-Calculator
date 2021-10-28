@@ -9,8 +9,24 @@ padding: 0px;
 box-sizing: border-box;
 }
 
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+hr {
+    border: 2px solid #1b2f58;
+    border-radius: 50px;
+    margin: 20px 0px 20px 0px;
+}
+
+hr.smol {
+    border: 0.2px dashed #1e3b74;
+    width: 40%;
+}
+
 .header_class {
-    display: flex;
+    display: inline-block;
     text-align: center;
     width: 100%;
     padding: 30px;

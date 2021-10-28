@@ -9,8 +9,20 @@
                 MEE6 Levelling Calculator
             </h1>
         </div>
-        {% for i in form_data %}
-        <p style="font-size:10px;"> {{i}}</p>
+        {% set this_color = "#000000" %}
+        {% for i in [0, 1, 2, 3, 4] %}
+            {% if i == 0 %}
+                {% set this_color = "#000000" %}
+            {% elif i == 1 or i == 3%}
+                <hr style="border: 0.2px dashed #1e3b74;width: 40%;" />
+            {% elif i == 2 %}
+                {% set this_color = "#065CA7" %}
+            {% elif i == 4 %}
+                {% set this_color = "#000000" %}
+            {% endif %}
+            {% for f in form_data[i] %}
+                <p style="font-size:10px;color:{{this_color}}"> {{f}}</p>
+            {% endfor %}
         {% endfor %}
     </body>
 </html>

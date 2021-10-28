@@ -146,7 +146,7 @@ def get_details(USER_ID):
 
     next_rank_str = '\n'.join(['\nNext Rank Details:', f'Current XP: {xp_r}', f"Current Level: {current_level}", nrxpt])
 
-    fin_str_returnable = '\n'.join([username, next_level_str, next_rank_str, ''])
+    fin_str_returnable = [username.split('\n'), [" "],next_level_str.split('\n'), [" "], next_rank_str.split('\n')]
 
     json_list = {
         "username": details['username'],
